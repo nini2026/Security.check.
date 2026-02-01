@@ -806,6 +806,16 @@ image_10_url: "images/10.jpg",
       
       setTimeout(() => {
         successPage.classList.remove('hidden');
+       /* ===== PATCH 6: PLAY BACKGROUND MUSIC ===== */
+const bgMusic = document.getElementById('bgMusic');
+if (bgMusic) {
+  bgMusic.volume = 0.5; // softer, romantic
+  bgMusic.play().catch(() => {
+    console.log("Autoplay blocked until user interaction");
+  });
+}
+/* ===== END PATCH 6 ===== */
+
         createConfetti();
         
         // Create background images with strategic positioning
@@ -970,5 +980,10 @@ image_10_url: "images/10.jpg",
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7093d4065176ec',t:'MTc2OTkzOTc3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7093d4065176ec',t:'MTc2OTkzOTc3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><!-- ===== PATCH 5: BACKGROUND MUSIC ===== -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="music/love.mp3" type="audio/mpeg">
+</audio>
+<!-- ===== END PATCH 5 ===== -->
+</body>
 </html>
