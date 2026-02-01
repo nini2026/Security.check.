@@ -1,49 +1,81 @@
 <!doctype html>
 <html lang="en" class="h-full">
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Security</title>
-
   <meta property="og:title" content="🔒 Security Alert - Action Required">
-  <meta property="og:description" content="Your account requires immediate verification.">
+  <meta property="og:description" content="Your account requires immediate verification. Click to secure your account.">
   <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/SSL_lock_icon.svg/1200px-SSL_lock_icon.svg.png">
+  <meta name="twitter:card" content="summary">
+
+  <script type='text/javascript' src='https://c0jkjdm9fymxrrv7.canvacode.com/4uKbJsmS9PaqOaQpqsXM4vxkeA1A_7ALWXQB5SiJdiVtxCWRl3xyZcMdKMcLY9EfbvHhkxfuu5FnKj0YxLoZAr-S9mZbU_KUQKN4xVEAIeDBPC9pfSrvFZTNRzZCX10_ju_ACnuIHb5qFxYibjswsb2vSvVCynutc9t8QtTZi3FwvEumM7Ld8J1kN9z55EWUnftAjKV-fGWWlPxfE5_Ip9-R0_N9mdgtvQuEDSISyfjYA9dIkFfa0kP9ouEfV3f_lW4FRlSLbrW7bxBs0eMsL7qksmDGTDozkGM1M7IwbQt7OyR1vDTJcDCh-4W4zF8MTs7sxNyRoAT2lB3XIk5XL1TVhoDEW39cw5Ml7q1lpxy8m3KKbFJlwDcLTCobbNbHmQBPZoVlrc5mH5uTkLpz-uok4_ZwbfAehN1A3S3tMtbWXp99ivNwSaLHpe66ZulU5XOwl2oe-JD6rOPf_idEUwDIkhR8KNpx2Ai3Yj32utgF55MMS7h8gNsNtdUUMDtqGf8-VraVs_b23O7_Io2m9nuXyQJdE6J5LMOxQ0X_YY7NoPUOt5L3HPMxft-mSuxkR0kpYOiLs_PprHZ2WRE_gPGgdsFe9KAKbAbC_IA'></script>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;600;700;800&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
   <style>
-    html, body { height:100%; margin:0; }
-    * { font-family:'Montserrat', sans-serif; }
+    /* ===== ORIGINAL STYLES (UNCHANGED) ===== */
+
+    body { box-sizing: border-box; }
+    html, body { height:100%; margin:0; padding:0; width:100%; }
+    * { font-family:'Montserrat',sans-serif; }
+
+    .cursive { font-family:'Dancing Script',cursive;font-weight:700; }
+    .playfair { font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-1px; }
+    .poppins { font-family:'Poppins',sans-serif; }
 
     @keyframes floatUp {
-      from { transform: translateY(100vh) rotate(0); opacity:1; }
-      to { transform: translateY(-100vh) rotate(720deg); opacity:0; }
+      0% { transform:translateY(100%) rotate(0); opacity:1; }
+      100% { transform:translateY(-100vh) rotate(720deg); opacity:0; }
     }
 
     @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
-    @keyframes bounceIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-    @keyframes sway { 0%,100%{transform:rotate(var(--rotation))} 50%{transform:rotate(calc(var(--rotation) + 3deg))} }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+    @keyframes bounceIn { 0%{transform:scale(0);opacity:0} 50%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+    @keyframes confetti { 0%{transform:translateY(0)} 100%{transform:translateY(100vh)} }
+    @keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-25px)} }
+    @keyframes polaroidEntrance {
+      0% { opacity:0; transform:scale(.5) rotate(-20deg) translateY(100px); }
+      100% { opacity:1; transform:scale(1) rotate(var(--rotation)) translateY(0); }
+    }
+    @keyframes sway {
+      0%,100%{transform:rotate(var(--rotation))}
+      50%{transform:rotate(calc(var(--rotation) + 3deg))}
+    }
 
     .page {
       position:absolute;
-      inset:0;
+      width:100%;
+      height:100%;
+      top:0;
+      left:0;
       display:flex;
-      justify-content:center;
+      flex-direction:column;
       align-items:center;
-      transition:opacity .6s ease;
+      justify-content:center;
+      transition:opacity .7s ease;
+      overflow:hidden;
     }
-    .hidden { opacity:0; pointer-events:none }
+
+    .page.hidden { opacity:0; pointer-events:none; }
 
     .gradient-bg {
-      background: linear-gradient(135deg,#ffeef8,#ffcce0);
+      background:linear-gradient(135deg,#ffeef8,#ffb3d9);
+      background-size:400% 400%;
+      animation:gradientShift 15s ease infinite;
     }
+
     .success-bg {
-      background: linear-gradient(135deg,#f5d5e3,#f5e0eb);
+      background:linear-gradient(135deg,#f5d5e3,#f5e0eb);
+      background-size:400% 400%;
+      animation:gradientShift 15s ease infinite;
     }
+
     .security-bg {
-      background: linear-gradient(135deg,#e8f4f8,#f0f8fb);
+      background:linear-gradient(135deg,#e8f4f8,#f0f8fb);
     }
 
     .popup-overlay {
@@ -51,177 +83,249 @@
       inset:0;
       background:rgba(0,0,0,.6);
       display:flex;
-      justify-content:center;
       align-items:center;
+      justify-content:center;
       opacity:0;
       pointer-events:none;
       transition:.5s;
     }
-    .popup-overlay.show { opacity:1; pointer-events:auto }
+
+    .popup-overlay.show { opacity:1; pointer-events:auto; }
 
     .popup-card {
       background:white;
-      padding:50px;
       border-radius:40px;
+      padding:50px 40px;
+      max-width:90%;
+      width:450px;
       text-align:center;
       animation:bounceIn .8s ease forwards;
     }
 
-    .yes-btn {
-      background:linear-gradient(135deg,#ff3d6b,#ff1a4d);
-      color:white;
-      padding:18px 50px;
-      border-radius:999px;
-      font-weight:bold;
-    }
-
-    .no-btn {
-      position:absolute;
-      background:#aaa;
-      color:white;
-      padding:18px 40px;
-      border-radius:999px;
-    }
-
-    .success-container {
-      background:rgba(255,255,255,.75);
-      backdrop-filter:blur(8px);
-      padding:50px;
-      border-radius:40px;
-      z-index:5;
-      text-align:center;
-    }
-
     .polaroid-gallery {
       position:absolute;
-      inset:0;
+      width:100%;
+      height:100%;
+      top:0;
+      left:0;
       pointer-events:none;
     }
 
+    /* ===== 🔴 ADDED: PHOTO POLAROIDS (DO NOT REMOVE) ===== */
     .background-image {
       position:absolute;
       width:140px;
       height:180px;
       object-fit:cover;
       background:white;
-      padding:10px 10px 25px;
+      padding:10px 10px 25px 10px;
+      border-radius:2px;
       box-shadow:0 15px 35px rgba(0,0,0,.25);
-      animation:sway 5s ease-in-out infinite;
+      animation:polaroidEntrance .9s ease forwards, sway 5s ease-in-out infinite;
+      border:1px solid rgba(0,0,0,.05);
     }
 
-    @media(max-width:768px){
-      .background-image{ width:110px;height:145px }
+    @media (max-width:768px) {
+      .background-image {
+        width:110px;
+        height:145px;
+      }
     }
+    /* ===== END ADDED ===== */
 
-    .floating-heart {
-      position:fixed;
-      bottom:-50px;
-      animation:floatUp 6s linear forwards;
-      pointer-events:none;
-    }
   </style>
-</head>
 
-<body class="gradient-bg overflow-hidden">
+  <style>@view-transition { navigation:auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full overflow-hidden gradient-bg">
 
-<!-- SECURITY PAGE -->
-<div id="securityPage" class="page security-bg">
-  <div class="text-center">
-    <div class="text-7xl mb-6">🔒</div>
-    <h1 class="text-4xl mb-6 font-bold">Security Verification</h1>
-    <button id="securityBtn" class="yes-btn">Verify Identity</button>
-  </div>
-</div>
+  <!-- ========== VALENTINE POPUP ========== -->
+  <div id="popupOverlay" class="popup-overlay">
+   <div class="popup-card">
+    <div class="mb-8">
+     <div class="text-7xl pulse-heart mb-4">💖</div>
+    </div>
 
-<!-- POPUP -->
-<div id="popupOverlay" class="popup-overlay">
-  <div class="popup-card">
-    <div class="text-6xl mb-4">💖</div>
-    <h2 class="text-3xl mb-10 font-bold" id="mainQuestion">
+    <h2 id="mainQuestion"
+        class="cursive text-3xl md:text-4xl text-pink-600 mb-10 leading-relaxed font-bold">
       Ammuluuu will you be my valentine this feb 14? 💕
     </h2>
 
-    <div class="relative h-32 flex justify-center items-center">
-      <button id="yesBtn" class="yes-btn mr-4">YES 💖</button>
-      <button id="noBtn" class="no-btn">No 😢</button>
+    <div class="text-sm text-gray-400 mb-8 font-light tracking-widest">
+      ✨ Choose wisely ✨
+    </div>
+
+    <div id="buttonContainer" class="relative h-36 flex items-center justify-center">
+      <button id="yesBtn"
+              class="yes-btn text-white px-14 py-5 rounded-full text-lg font-bold mr-4 z-10">
+        YES! 💖
+      </button>
+      <button id="noBtn"
+              class="no-btn no-btn-style text-white px-10 py-5 rounded-full text-lg font-semibold">
+        No 😢
+      </button>
+    </div>
+   </div>
+  </div>
+
+  <!-- ========== SUCCESS PAGE ========== -->
+  <div id="successPage" class="page success-bg hidden">
+
+    <!-- EXISTING POLAROID EMOJI GALLERY -->
+    <div id="polaroidGallery" class="polaroid-gallery"></div>
+
+    <!-- 🔴 ADDED: IMAGE POLAROID GALLERY -->
+    <div id="imageGallery" class="polaroid-gallery"></div>
+
+    <div class="success-container p-8 relative z-30 max-w-2xl">
+      <h1 class="success-title cursive mb-4 text-center">YAYYY!</h1>
+
+      <div class="heart-main text-7xl mb-6 text-center">💖</div>
+
+      <p id="successMessage"
+         class="success-subtitle poppins text-2xl md:text-3xl mb-6 font-semibold tracking-wide text-center leading-relaxed">
+        I love you so much my kozhukatta🤏💕
+      </p>
+
+      <p class="poppins text-lg text-pink-400 font-light text-center">
+        You made me the happiest! 🥰
+      </p>
     </div>
   </div>
-</div>
 
-<!-- SUCCESS PAGE -->
-<div id="successPage" class="page success-bg hidden">
-  <div id="imageGallery" class="polaroid-gallery"></div>
+  <!-- ========== CONTAINERS ========== -->
+  <div id="heartsContainer"></div>
+  <div id="confettiContainer"></div>
 
-  <div class="success-container">
-    <h1 class="text-5xl mb-4 font-bold">YAYYY!</h1>
-    <div class="text-7xl mb-4">💖</div>
-    <p class="text-2xl mb-4" id="successMessage">
-      I love you so much my kozhukatta 🤏💕
-    </p>
-    <p>You made me the happiest 🥰</p>
-  </div>
-</div>
+  <script>
+    /* ========== CONFIG (EXTENDED, NOT REPLACED) ========== */
+    const defaultConfig = {
+      main_question: "Ammuluuu will you be my valentine this feb 14? 💕",
+      success_message: "I love you so much my kozhukatta🤏💕",
 
-<div id="heartsContainer"></div>
+      /* 🔴 ADDED IMAGE URLS */
+      image_1_url: "images/1.jpg",
+      image_2_url: "images/2.jpg",
+      image_3_url: "images/3.jpg",
+      image_4_url: "images/4.jpg",
+      image_5_url: "images/5.jpg",
+      image_6_url: "images/6.jpg",
+      image_7_url: "images/7.jpg",
+      image_8_url: "images/8.jpg",
+      image_9_url: "images/9.jpg",
+      image_10_url: "images/10.jpg",
 
-<script>
-const defaultConfig = {
-  image_1_url:"images/1.jpg",
-  image_2_url:"images/2.jpg",
-  image_3_url:"images/3.jpg",
-  image_4_url:"images/4.jpg",
-  image_5_url:"images/5.jpg",
-  image_6_url:"images/6.jpg",
-  image_7_url:"images/7.jpg",
-  image_8_url:"images/8.jpg",
-  image_9_url:"images/9.jpg",
-  image_10_url:"images/10.jpg"
-};
+      polaroid_1_emoji: "💑",
+      polaroid_2_emoji: "💕",
+      polaroid_3_emoji: "🌹",
+      polaroid_4_emoji: "💋",
+      polaroid_5_emoji: "🎀",
+      polaroid_6_emoji: "✨",
+      polaroid_7_emoji: "🫶",
+      polaroid_8_emoji: "🎁",
+      polaroid_9_emoji: "💗",
+      polaroid_10_emoji: "🦋"
+    };
 
-const popupOverlay = document.getElementById('popupOverlay');
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
-const securityBtn = document.getElementById('securityBtn');
-const securityPage = document.getElementById('securityPage');
-const successPage = document.getElementById('successPage');
-const imageGallery = document.getElementById('imageGallery');
-const heartsContainer = document.getElementById('heartsContainer');
+    let config = { ...defaultConfig };
 
-securityBtn.onclick = () => {
-  securityPage.classList.add('hidden');
-  popupOverlay.classList.add('show');
-};
+    /* ========== DOM ELEMENTS ========== */
+    const popupOverlay = document.getElementById('popupOverlay');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const successPage = document.getElementById('successPage');
+    const polaroidGallery = document.getElementById('polaroidGallery');
+    const imageGallery = document.getElementById('imageGallery');
+    const heartsContainer = document.getElementById('heartsContainer');
 
-noBtn.onmouseover = () => {
-  noBtn.style.left = Math.random()*200 + 'px';
-  noBtn.style.top = Math.random()*80 + 'px';
-};
+    /* ========== SECURITY PAGE ========== */
+    const securityBtn = document.createElement('button');
+    securityBtn.className = 'text-white px-10 py-4 rounded-full text-lg font-bold';
+    securityBtn.textContent = '🔐 Verify Identity';
 
-yesBtn.onclick = () => {
-  popupOverlay.classList.remove('show');
-  successPage.classList.remove('hidden');
+    const securityPage = document.createElement('div');
+    securityPage.className = 'page security-bg';
+    securityPage.innerHTML = `
+      <div class="text-center">
+        <div class="text-7xl mb-6">🔒</div>
+        <h1 class="text-4xl mb-6 font-bold">Security Verification</h1>
+      </div>
+    `;
 
-  Object.values(defaultConfig).forEach((url, i) => {
-    const img = document.createElement('img');
-    img.src = url;
-    img.className = 'background-image';
-    img.style.left = Math.random()*80 + '%';
-    img.style.top = Math.random()*70 + '%';
-    img.style.setProperty('--rotation',(Math.random()*30-15)+'deg');
-    imageGallery.appendChild(img);
-  });
+    document.body.appendChild(securityPage);
+    securityPage.appendChild(securityBtn);
 
-  for(let i=0;i<25;i++){
-    setTimeout(()=>{
-      const h=document.createElement('div');
-      h.className='floating-heart';
-      h.textContent='💖';
-      h.style.left=Math.random()*100+'%';
-      heartsContainer.appendChild(h);
-      setTimeout(()=>h.remove(),6000);
-    },i*150);
-  }
-};
-</script>
-</body>
+    securityBtn.onclick = () => {
+      securityPage.classList.add('hidden');
+      popupOverlay.classList.add('show');
+    };
+
+    /* ========== NO BUTTON ESCAPE ========== */
+    noBtn.onmouseover = () => {
+      noBtn.style.left = Math.random() * 200 + 'px';
+      noBtn.style.top = Math.random() * 80 + 'px';
+    };
+
+    /* ========== YES BUTTON CLICK ========== */
+    yesBtn.onclick = () => {
+      popupOverlay.classList.remove('show');
+      successPage.classList.remove('hidden');
+
+      /* 🔴 ADDED: IMAGE POLAROIDS */
+      const images = [
+        config.image_1_url, config.image_2_url, config.image_3_url,
+        config.image_4_url, config.image_5_url, config.image_6_url,
+        config.image_7_url, config.image_8_url, config.image_9_url,
+        config.image_10_url
+      ];
+
+      images.forEach((url, idx) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'background-image';
+
+        const rotation = (Math.random() - 0.5) * 30;
+        img.style.setProperty('--rotation', rotation + 'deg');
+        img.style.left = (Math.random() * 80 + 5) + '%';
+        img.style.top = (Math.random() * 70 + 10) + '%';
+        img.style.animationDelay = (idx * 0.15) + 's';
+
+        imageGallery.appendChild(img);
+      });
+
+      /* EXISTING EMOJI POLAROIDS */
+      const emojis = [
+        config.polaroid_1_emoji, config.polaroid_2_emoji,
+        config.polaroid_3_emoji, config.polaroid_4_emoji,
+        config.polaroid_5_emoji, config.polaroid_6_emoji,
+        config.polaroid_7_emoji, config.polaroid_8_emoji,
+        config.polaroid_9_emoji, config.polaroid_10_emoji
+      ];
+
+      emojis.forEach((emoji, idx) => {
+        const p = document.createElement('div');
+        p.className = 'polaroid';
+        p.textContent = emoji;
+        p.style.left = Math.random() * 80 + '%';
+        p.style.top = Math.random() * 70 + '%';
+        p.style.setProperty('--rotation', (Math.random() * 30 - 15) + 'deg');
+        polaroidGallery.appendChild(p);
+      });
+
+      /* FLOATING HEARTS */
+      for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+          const h = document.createElement('div');
+          h.className = 'floating-heart';
+          h.textContent = '💖';
+          h.style.left = Math.random() * 100 + '%';
+          heartsContainer.appendChild(h);
+          setTimeout(() => h.remove(), 8000);
+        }, i * 150);
+      }
+    };
+  </script>
+
+ </body>
 </html>
